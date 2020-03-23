@@ -36,4 +36,9 @@ public class LoginController {
 		return "redirect:/loginAdmin?err=1";
 	}
 	
+	@GetMapping("/access-denied")
+	public String accessDeny() {
+		return "/accessDeny";
+	}
+	
 }

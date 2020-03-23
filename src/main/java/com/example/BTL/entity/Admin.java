@@ -21,8 +21,19 @@ public class Admin {
 	@Column(name="password")
 	private String password;
 
+	@Column(name="role")
+	private String role;
+	
 	public Admin() {
 		super();
+	}
+	
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 	public int getAdminid() {

@@ -33,8 +33,11 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 									<input type="text" class="form-control" id="username" th:field ="*{username}" placeholder="Username">
 								</div>
 								<div class="form-group content-form">
-									<label for="">Password:</label>
-									<input type="password" class="form-control" id="password" th:field ="*{password}" placeholder="Password">
+									<label for="sel1">ROLE:</label>
+									  <select class="form-control" id="sel1" name="role" th:field ="*{role}">
+									    <option th:value="ROLE_ADMIN">ADMIN</option>
+									    <option th:value="ROLE_MEMBER">MEMBER</option>
+									  </select>
 								</div>
 								<div>
 									<h5 id="error" style="color: red"></h5>
