@@ -36,6 +36,13 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 									<label for="">Password:</label>
 									<input type="password" class="form-control" id="password" th:field ="*{password}" placeholder="Password">
 								</div>
+								<div class="form-group content-form">
+									<label for="sel1">ROLE:</label>
+									  <select class="form-control" id="sel1" name="role" th:field ="*{role}">
+									    <option th:value="ROLE_ADMIN">ADMIN</option>
+									    <option th:value="ROLE_MEMBER">MEMBER</option>
+									  </select>
+								</div>
 								<div>
 									<h5 id="error" style="color: red"></h5>
 								</div>

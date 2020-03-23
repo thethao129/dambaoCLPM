@@ -34,8 +34,22 @@ public class AdminDaoImpl implements AdminDao {
 
 	@Override
 	public void editAdmin(Admin admin) {
-		// TODO Auto-generated method stub
-		entityManager.merge(admin);
+		try {
+			entityManager.getTransaction().begin();
+			
+			String jpql = "UPDATE Admin a SET a.username = :auser, a.role = :arole WHERE a.id LIKE :aid ";
+			Query query = entityManager.createQuery(jpql);
+			query.setParameter("aid",  admin.getAdminid() );
+			query.setParameter("auser",  admin.getUsername() );
+			query.setParameter("arole",  admin.getRole() );
+			
+			entityManager.getTransaction().commit();
+			entityManager.close();
+		}catch (Exception e) {
+			// TODO: handle exception
+			System.out.print(e);
+		
+		}
 	}
 
 	@Override
