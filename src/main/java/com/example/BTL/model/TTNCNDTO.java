@@ -6,7 +6,7 @@ import java.util.Date;
 public class TTNCNDTO implements Serializable{
 	private int id;
 	private MaThueDTO mathue;
-	private int idtaxer;
+	private TaxerDTO taxerDTO;
 	private String name;
 	private String birdth;
 	private String address;
@@ -20,6 +20,15 @@ public class TTNCNDTO implements Serializable{
 	private String thueTNCN;
 	
 	
+	
+	public TaxerDTO getTaxerDTO() {
+		return taxerDTO;
+	}
+
+	public void setTaxerDTO(TaxerDTO taxerDTO) {
+		this.taxerDTO = taxerDTO;
+	}
+
 	public String getTongthuNhap() {
 		return tongthuNhap;
 	}
@@ -63,13 +72,6 @@ public class TTNCNDTO implements Serializable{
 
 	public void setMathue(MaThueDTO mathue) {
 		this.mathue = mathue;
-	}
-
-	public int getIdtaxer() {
-		return idtaxer;
-	}
-	public void setIdtaxer(int idtaxer) {
-		this.idtaxer = idtaxer;
 	}
 	public String getName() {
 		return name;

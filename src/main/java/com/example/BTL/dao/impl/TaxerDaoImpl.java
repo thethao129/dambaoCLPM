@@ -35,4 +35,18 @@ public class TaxerDaoImpl implements TaxerDao{
 		
 	}
 
+	@Override
+	public Taxer getTaxerById(int id) {
+		try {
+			String jpql = "SELECT t FROM Taxer t WHERE t.id LIKE :tid";
+			Query query = entityManager.createQuery(jpql);
+			query.setParameter("tid", id);
+			return (Taxer)query.getSingleResult();
+		}catch (Exception e) {
+			// TODO: handle exception
+			System.out.print(e);
+			return null;
+		}
+	}
+
 }

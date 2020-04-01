@@ -14,11 +14,21 @@ public class Taxer {
 	private int id;
 	private String name;
 	private String description;
+	private float thuesuat;
 	
 	
 	public Taxer() {
 		super();
 	}
+	
+	public float getThuesuat() {
+		return thuesuat;
+	}
+
+	public void setThuesuat(float thuesuat) {
+		this.thuesuat = thuesuat;
+	}
+
 	public int getId() {
 		return id;
 	}

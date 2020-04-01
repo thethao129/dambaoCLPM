@@ -6,4 +6,5 @@ import com.example.BTL.entity.Taxer;
 
 public interface TaxerDao {
 	public List<Taxer> getListTaxer();
+	public Taxer getTaxerById(int id);
 }

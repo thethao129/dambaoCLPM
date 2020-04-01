@@ -28,10 +28,22 @@ public class TaxerServiceImpl implements TaxerService{
 			taxerDTO.setId(taxer.getId());
 			taxerDTO.setName(taxer.getName());
 			taxerDTO.setDescription(taxer.getDescription());
-			
+			taxerDTO.setThuesuat(taxer.getThuesuat());
 			lisTaxerDTOs.add(taxerDTO);
 		}
 		return lisTaxerDTOs;
+	}
+
+	@Override
+	public TaxerDTO getTaxerById(int id) {
+		// TODO Auto-generated method stub
+		Taxer taxer = taxerDao.getTaxerById(id);
+		TaxerDTO taxerDTO = new TaxerDTO();
+		taxerDTO.setId(taxer.getId());
+		taxerDTO.setName(taxer.getName());
+		taxerDTO.setDescription(taxer.getDescription());
+		taxerDTO.setThuesuat(taxer.getThuesuat());
+		return taxerDTO;
 	}
 
 }

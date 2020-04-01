@@ -7,11 +7,21 @@ public class TaxerDTO implements Serializable{
 	private int id;
 	private String name;
 	private String description;
+	private float thuesuat;
 	
 	
 	public TaxerDTO() {
 		super();
 	}
+	
+	public float getThuesuat() {
+		return thuesuat;
+	}
+
+	public void setThuesuat(float thuesuat) {
+		this.thuesuat = thuesuat;
+	}
+
 	public int getId() {
 		return id;
 	}
