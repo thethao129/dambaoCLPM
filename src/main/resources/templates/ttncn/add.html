@@ -40,6 +40,13 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 									<input type="text" class="form-control" id="birdth" name="birdth" th:field ="*{birdth}" placeholder="yyyy/MM/dd">
 								</div>
 								<div class="form-group content-form">
+									  <label for="">Đối tượng thu thuế:</label>
+									  <select class="form-control" th:field="*{taxerDTO.id}" id="id_taxer">
+									    <option th:each="i : ${taxers}" th:value="${i.id}" th:text="${i.name}"></option>
+									    
+									  </select>
+								</div>
+								<div class="form-group content-form">
 									  <label for="">MaST:</label>
 									  <select class="form-control" th:field="*{mathue.id}" id="id_mast">
 									    <option th:each="i : ${mathue}" th:value="${i.id}" th:text="${i.maST}"></option>

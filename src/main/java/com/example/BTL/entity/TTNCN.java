@@ -22,7 +22,10 @@ public class TTNCN {
 	@JoinColumn(name="id_mast")
 	private MaThue maThue;
 	
-	private int idtaxer;
+	@ManyToOne
+	@JoinColumn(name="idtaxer")
+	private Taxer taxer;
+	
 	private String name;
 	private Date birdth;
 	private String address;
@@ -46,11 +49,12 @@ public class TTNCN {
 	public void setMaThue(MaThue maThue) {
 		this.maThue = maThue;
 	}
-	public int getIdtaxer() {
-		return idtaxer;
+	
+	public Taxer getTaxer() {
+		return taxer;
 	}
-	public void setIdtaxer(int idtaxer) {
-		this.idtaxer = idtaxer;
+	public void setTaxer(Taxer taxer) {
+		this.taxer = taxer;
 	}
 	public String getName() {
 		return name;

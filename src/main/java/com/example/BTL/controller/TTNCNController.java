@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.BTL.model.MaThueDTO;
 import com.example.BTL.model.TTNCNDTO;
+import com.example.BTL.model.TaxerDTO;
 import com.example.BTL.service.MaThueService;
 import com.example.BTL.service.TTNCNService;
+import com.example.BTL.service.TaxerService;
 
 @Controller
 @RequestMapping("/admin")
@@ -24,6 +26,9 @@ public class TTNCNController {
 	
 	@Autowired
 	private MaThueService maThueService;
+	
+	@Autowired 
+	private TaxerService taxerService;
 	
 	@GetMapping("/listTTNCN")
 	public String getListTTNCN(Model model) {
@@ -50,6 +55,10 @@ public class TTNCNController {
 		
 		List<MaThueDTO> maThueDTO = maThueService.getListMT();
 		model.addAttribute("mathue", maThueDTO);
+		
+		List<TaxerDTO> taxerDTOs = taxerService.getListTaxer();
+		model.addAttribute("taxers", taxerDTOs);
+		
 		return "/ttncn/edit";
 	}
 	
@@ -68,6 +77,9 @@ public class TTNCNController {
 		
 		List<MaThueDTO> liMaThueDTOs = maThueService.getListMT();
 		model.addAttribute("mathue", liMaThueDTOs);
+		
+		List<TaxerDTO> taxerDTOs = taxerService.getListTaxer();
+		model.addAttribute("taxers", taxerDTOs);
 		return "/ttncn/add";
 	}
 	

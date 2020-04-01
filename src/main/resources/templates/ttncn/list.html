@@ -30,6 +30,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 									<tr>
 										<th class="text-center">ID</th>
 										<th class="text-center">Name</th>
+										<th class="text-center">Đối tượng</th>
 										<th class="text-center">Ma ST</th>
 										<th class="text-center">Birdth Day</th>
 										<th class="text-center">Tong thu nhap</th>
@@ -43,6 +44,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 									<tr th:each ="t : ${list}">
 										<td class="text-center" th:text="${tStat.count} "></td>
 										<td class="text-center" th:text="${t.name}"></td>
+										<td class="text-center" th:text="${t.taxerDTO.name}"></td>
 										<td class="text-center" th:text="${t.mathue.maST}"></td>
 										<td class="text-center" th:text="${t.birdth}"></td>
 										<td class="text-center" th:text="${t.tongthuNhap}"></td>

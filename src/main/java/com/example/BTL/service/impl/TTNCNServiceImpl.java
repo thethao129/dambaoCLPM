@@ -12,12 +12,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.BTL.dao.TTNCNDao;
+import com.example.BTL.dao.TaxerDao;
 import com.example.BTL.entity.MaThue;
 import com.example.BTL.entity.TTNCN;
+import com.example.BTL.entity.Taxer;
 import com.example.BTL.model.MaThueDTO;
 import com.example.BTL.model.TTNCNDTO;
+import com.example.BTL.model.TaxerDTO;
 import com.example.BTL.model.ThueSuatDTO;
 import com.example.BTL.service.TTNCNService;
+import com.example.BTL.service.TaxerService;
 import com.example.BTL.service.ThueSuatService;
 
 @Service
@@ -27,6 +31,9 @@ public class TTNCNServiceImpl implements TTNCNService{
 
 	@Autowired
 	private TTNCNDao ttncnDao;
+	
+	@Autowired
+	private TaxerService taxerService;
 	
 	@Autowired
 	private ThueSuatService thueSuatService;
@@ -47,7 +54,8 @@ public class TTNCNServiceImpl implements TTNCNService{
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");		
 			ttncndto.setBirdth(sdf.format(t.getBirdth()));
 			ttncndto.setCard(t.getCard());
-			ttncndto.setIdtaxer(t.getIdtaxer());
+			TaxerDTO taxerDTO = taxerService.getTaxerById(t.getTaxer().getId());
+			ttncndto.setTaxerDTO(taxerDTO);
 			ttncndto.setName(t.getName());
 			ttncndto.setStatus(t.getStatus());
 			ttncndto.setThuetncn(t.getThuetncn());
@@ -65,16 +73,21 @@ public class TTNCNServiceImpl implements TTNCNService{
 	@Override
 	public void add(TTNCNDTO t) {
 		// TODO Auto-generated method stub
-		List<ThueSuatDTO> listThueSuats = thueSuatService.getListThueSuat(t.getMathue().getId());
-		for(ThueSuatDTO th : listThueSuats) {
-			if(t.getTongthunhap()>=th.getLuongmin()&&(t.getTongthunhap()<=th.getLuongmax()||th.getLuongmax()==0)) {
-				t.setThuetncn(t.getThunhaptinhthue()*th.getPhantramthue()/100);
-				break;
+		TaxerDTO taxerDTO = taxerService.getTaxerById(t.getTaxerDTO().getId());
+		if(taxerDTO.getThuesuat()!=0&&taxerDTO.getThuesuat()>0) {
+			t.setThuetncn(t.getThunhaptinhthue()*taxerDTO.getThuesuat()/100);
+		}else {
+			List<ThueSuatDTO> listThueSuats = thueSuatService.getListThueSuat(t.getMathue().getId());
+			for(ThueSuatDTO th : listThueSuats) {
+				if(t.getTongthunhap()>=th.getLuongmin()&&(t.getTongthunhap()<=th.getLuongmax()||th.getLuongmax()==0)) {
+					t.setThuetncn(t.getThunhaptinhthue()*th.getPhantramthue()/100);
+					break;
+				}
 			}
 		}
 		TTNCN ttncn = new TTNCN();
-		ttncn.setIdtaxer(0);
 		ttncn.setName(t.getName());
+		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 		try {
 			ttncn.setBirdth(new Date(sdf.parse(t.getBirdth()).getTime()));
@@ -89,7 +102,9 @@ public class TTNCNServiceImpl implements TTNCNService{
 		ttncn.setTongthunhap(t.getTongthunhap());
 		ttncn.setThunhaptinhthue(t.getThunhaptinhthue());
 		ttncn.setThuetncn(t.getThuetncn());
-		
+		Taxer taxer = new Taxer();
+		taxer.setId(taxerDTO.getId());
+		ttncn.setTaxer(taxer);
 		ttncnDao.add(ttncn);
 	}
 
@@ -104,16 +119,23 @@ public class TTNCNServiceImpl implements TTNCNService{
 
 	@Override
 	public void update(TTNCNDTO t) {
+		t.setThunhaptinhthue(Double.parseDouble(t.getThunhaptinhThue().replaceAll(",", "")));
+		t.setTongthunhap(Double.parseDouble(t.getTongthuNhap().replaceAll(",", "")));
 		TTNCN ttncn = new TTNCN();
-		List<ThueSuatDTO> listThueSuats = thueSuatService.getListThueSuat(t.getMathue().getId());
-		for(ThueSuatDTO th : listThueSuats) {
-			if(t.getTongthunhap()>=th.getLuongmin()&&(t.getTongthunhap()<=th.getLuongmax()||th.getLuongmax()==0)) {
-				t.setThuetncn(t.getThunhaptinhthue()*th.getPhantramthue()/100);
-				break;
+		TaxerDTO taxerDTO = taxerService.getTaxerById(t.getTaxerDTO().getId());
+		if(taxerDTO.getThuesuat()!=0&&taxerDTO.getThuesuat()>0) {
+			t.setThuetncn(t.getThunhaptinhthue()*taxerDTO.getThuesuat()/100);
+		}else {
+			List<ThueSuatDTO> listThueSuats = thueSuatService.getListThueSuat(t.getMathue().getId());
+			for(ThueSuatDTO th : listThueSuats) {
+				if(t.getTongthunhap()>=th.getLuongmin()&&(t.getTongthunhap()<=th.getLuongmax()||th.getLuongmax()==0)) {
+					t.setThuetncn(t.getThunhaptinhthue()*th.getPhantramthue()/100);
+					break;
+				}
 			}
 		}
 		ttncn.setId(t.getId());
-		ttncn.setIdtaxer(0);
+		
 		ttncn.setName(t.getName());
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 		try {
@@ -129,7 +151,9 @@ public class TTNCNServiceImpl implements TTNCNService{
 		ttncn.setTongthunhap(t.getTongthunhap());
 		ttncn.setThunhaptinhthue(t.getThunhaptinhthue());
 		ttncn.setThuetncn(t.getThuetncn());
-		
+		Taxer taxer = new Taxer();
+		taxer.setId(taxerDTO.getId());
+		ttncn.setTaxer(taxer);
 		ttncnDao.update(ttncn);
 	}
 
@@ -150,7 +174,7 @@ public class TTNCNServiceImpl implements TTNCNService{
 		
 		ttncndto.setBirdth(sdf.format(t.getBirdth()));
 		ttncndto.setCard(t.getCard());
-		ttncndto.setIdtaxer(t.getIdtaxer());
+		
 		ttncndto.setName(t.getName());
 		ttncndto.setStatus(t.getStatus());
 		ttncndto.setThuetncn(t.getThuetncn());
@@ -159,7 +183,8 @@ public class TTNCNServiceImpl implements TTNCNService{
 		ttncndto.setThueTNCN(numberFormat.format(t.getThuetncn()));
 		ttncndto.setThunhaptinhThue(numberFormat.format(t.getThunhaptinhthue()));
 		ttncndto.setTongthuNhap(numberFormat.format(t.getTongthunhap()));
-		
+		TaxerDTO taxerDTO = taxerService.getTaxerById(t.getTaxer().getId());
+		ttncndto.setTaxerDTO(taxerDTO);
 		return ttncndto;
 	}
 
