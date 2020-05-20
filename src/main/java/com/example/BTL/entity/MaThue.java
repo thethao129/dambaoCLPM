@@ -22,8 +22,11 @@ public class MaThue {
 	private String maST;
 	private Date startDate;
 	private Date endDate;
-	@OneToMany(mappedBy = "maThue",fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true)
+	@OneToMany(mappedBy = "maThue" , fetch = FetchType.LAZY, cascade = CascadeType.ALL ,orphanRemoval = true)
 	private List<ThueSuat> listTS;
+	
+	@OneToMany(mappedBy = "maThue" , fetch = FetchType.LAZY, cascade = CascadeType.ALL ,orphanRemoval = true)
+	private List<TTNCN> listTtncns;
 	
 	public int getId() {
 		return id;
@@ -55,6 +58,13 @@ public class MaThue {
 	}
 	public void setListTS(List<ThueSuat> listTS) {
 		this.listTS = listTS;
+	}
+	
+	public List<TTNCN> getListTtncns() {
+		return listTtncns;
+	}
+	public void setListTtncns(List<TTNCN> listTtncns) {
+		this.listTtncns = listTtncns;
 	}
 	public MaThue() {
 		super();

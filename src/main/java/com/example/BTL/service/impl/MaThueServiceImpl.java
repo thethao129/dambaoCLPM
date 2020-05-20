@@ -1,7 +1,9 @@
 package com.example.BTL.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,8 +28,11 @@ public class MaThueServiceImpl implements MaThueService {
 		for(MaThue m:liMaThues) {
 			MaThueDTO maThueDTO = new MaThueDTO();
 			maThueDTO.setId(m.getId());
-			maThueDTO.setEndDate(m.getEndDate());
-			maThueDTO.setStartDate(m.getStartDate());
+			SimpleDateFormat sf = new SimpleDateFormat("yyyy/MM/dd");
+			if(m.getStartDate()!=null)
+				maThueDTO.setStartDate(sf.format(m.getStartDate()));
+			if(m.getEndDate()!=null)
+				maThueDTO.setEndDate(sf.format(m.getEndDate()));
 			maThueDTO.setMaST(m.getMaST());
 			
 			liMaThueDTOs.add(maThueDTO);
@@ -40,8 +45,8 @@ public class MaThueServiceImpl implements MaThueService {
 		// TODO Auto-generated method stub
 		MaThue maThue = new MaThue();
 		maThue.setMaST(m.getMaST());
-		maThue.setStartDate(m.getStartDate());
-		maThue.setEndDate(m.getEndDate());
+		maThue.setStartDate(new java.sql.Date(System.currentTimeMillis()));
+		maThue.setEndDate(new java.sql.Date(System.currentTimeMillis()+TimeUnit.DAYS.toMillis(365)));
 		
 		maThueDao.createMT(maThue);
 	}
@@ -54,12 +59,13 @@ public class MaThueServiceImpl implements MaThueService {
 	}
 
 	@Override
-	public void update(MaThueDTO m) {
+	public void update(MaThueDTO mt) {
 		// TODO Auto-generated method stub
-		MaThue maThue = new MaThue();
-		maThue.setMaST(m.getMaST());
-		maThue.setStartDate(m.getStartDate());
-		maThue.setEndDate(m.getEndDate());
+		
+		MaThue maThue = maThueDao.getById(mt.getId());
+		maThue.setMaST(mt.getMaST());
+		maThue.setStartDate(new java.sql.Date(System.currentTimeMillis()));
+		maThue.setEndDate(new java.sql.Date(System.currentTimeMillis()+TimeUnit.DAYS.toMillis(365)));
 		
 		maThueDao.update(maThue);
 	}
@@ -70,8 +76,11 @@ public class MaThueServiceImpl implements MaThueService {
 		MaThueDTO maThue = new MaThueDTO();
 		maThue.setId(id);
 		maThue.setMaST(m.getMaST());
-		maThue.setStartDate(m.getStartDate());
-		maThue.setEndDate(m.getEndDate());
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy/MM/dd");
+		if(m.getStartDate()!=null)
+			maThue.setStartDate(sf.format(m.getStartDate()));
+		if(m.getEndDate()!=null)
+			maThue.setEndDate(sf.format(m.getEndDate()));
 		
 		
 		return maThue;
